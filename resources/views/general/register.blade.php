@@ -8,7 +8,7 @@
 <div class="login-inner-form">
     <div class="details">
         
-    <form action="{{route('create')}}" method="Post">
+    <form action="{{route('create')}}" method="Post" enctype="multipart/form-data">
             <div class="form-group">
                 <label>First Name</label>
                 <input type="text" name="first_name" class="input-text">
@@ -28,6 +28,10 @@
             <div class="form-group mb-35">
                 <label>Password</label>
                 <input type="password" name="password" class="input-text">
+            </div>
+            <div class="form-group mb-35">
+                <label>Profile Picture</label>
+               <input type="file" accept="image/*" name="photo">
             </div>
             
             <div class="form-group mb-0">

@@ -7,6 +7,7 @@
         <title>MeetUp</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta charset="UTF-8">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
         <!-- External CSS libraries -->
         <link type="text/css" rel="stylesheet" href="{{asset('files/css/bootstrap.min.css')}}">
         <link type="text/css" rel="stylesheet" href="{{asset('files/fonts/font-awesome/css/font-awesome.min.css')}}">
@@ -29,7 +30,7 @@
         <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TAGCODE" height="0" width="0"
                 style="display:none;visibility:hidden"></iframe></noscript>
         <!-- End Google Tag Manager (noscript) -->
-        <div class="page_loader"></div>
+        <div id = "app" class="page_loader"></div>
         
         <!-- Login 4 start -->
         <div class="login-4">
@@ -44,5 +45,14 @@
     <script src="{{asset('files/js/jquery-2.2.0.min.js')}}"></script>
     <script src="{{asset('files/js/popper.min.js')}}"></script>
     <script src="{{asset('files/js/bootstrap.min.js')}}"></script>
+    <script src="{{asset('js/app.js')}}"></script>
+    <script>
+        Echo.channel('home')
+              .listen('NewMessage' , (e)=>{
+                  console.log(e.message)
+              })
+            <script>
+        
+        </body>
  </body>
  </html>

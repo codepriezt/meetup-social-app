@@ -14,14 +14,14 @@ class User extends Authenticatable
 {
     use Notifiable;
 
-        public $table = 'users';
+    public $table = 'users';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'first_name', 'last_name', 'username', 'email', 'password', 
+        'first_name', 'last_name', 'username', 'email', 'password', 'photo'
     ];
 
     /**
@@ -63,11 +63,13 @@ class User extends Authenticatable
         return $this->first_name . ' ' . $this->last_name;
     }
 
-    public  function getfullNameOrUsername(){
+    public  function getfullNameOrUsername()
+    {
         return $this->getFullName() ?: $this->username;
     }
 
-    public function username(){
+    public function username()
+    {
 
         return $this->username();
     }
@@ -77,95 +79,95 @@ class User extends Authenticatable
         return $this->hasMany('App\Post', 'user_id');
     }
 
-    public function hasLikedPost(Post $post){
-        // return (bool) $post->likes
-        //     ->where('likeable_id' , $post->id)
-        //     -where('likeable_type' ,get_class($post))
-        //     ->where('user_id' , $this->id)
-        //     ->count();
-        return (bool) $post->likes->where('user_id' ,$this->id)->count();
+    public function hasLikedPost(Post $post)
+    {
+        return (bool) $post->likes->where('user_id', $this->id)->count();
     }
 
-   
+    public function messages()
+    {
+        return $this->hasMany(Message::class);
+    }
 
-        public function likes(){
-            return $this->hasMany('App\Like' , 'user_id');
-        }
+    public function likes()
+    {
+        return $this->hasMany('App\Like', 'user_id');
+    }
 
-        public function friends(){
+    public function friends()
+    {
         return $this->friendsOfMine()->wherePivot('status', 'confirmed')->get()
-        ->merge($this->friendOf()->wherePivot('status', 'confirmed')->get());
-        // return $this->belongsToMany(User::class, 'friends', 'user_id', 'friend_id')
-        //                     ->wherePivot('status' ,true);
-           
-        }
+            ->merge($this->friendOf()->wherePivot('status', 'confirmed')->get());
+    }
 
-        public function not_friends(){
-            return $this->friendsOfMine()->wherePivot('status' , 'inactive')->get()->merge($this->friendOf()->wherePivot('status' , 'inactive')->get());
-        }
-        
-   
+    public function not_friends()
+    {
+        return $this->friendsOfMine()->wherePivot('status', 'inactive')->get()->merge($this->friendOf()->wherePivot('status', 'inactive')->get());
+    }
+
+
     function friendsOfMine()
     {
         return $this->belongsToMany('App\User', 'friends', 'user_id', 'friend_id');
-            
     }
     //Ffriend that i was invited to
     function friendOf()
     {
         return $this->belongsToMany('App\User', 'friends', 'friend_id', 'user_id');
-            
     }
-
-
-    
 
 
     // friend request , accepting and declining 
-    public function friendRequest(){
-        return $this->friendOf()->wherePivot('status' ,'pending')->get();
+    public function friendRequest()
+    {
+        return $this->friendOf()->wherePivot('status', 'pending')->get();
     }
 
 
-    public function friendRequestPending(){
-        return $this->friendsOfMine()->wherePivot('status' , 'pending')->get();
+    public function friendRequestPending()
+    {
+        return $this->friendsOfMine()->wherePivot('status', 'pending')->get();
     }
 
 
-    public function hasFriendRequestPending(User $user){
-        return (bool) $this->friendRequestPending()->where('id' , $user->id)->count();
+    public function hasFriendRequestPending(User $user)
+    {
+        return (bool) $this->friendRequestPending()->where('id', $user->id)->count();
     }
 
-    public function hasFriendRequestRecieved(User $user){
-        return (bool)  $this->friendRequest()->where('id' , $user->id)->count();
+    public function hasFriendRequestRecieved(User $user)
+    {
+        return (bool)  $this->friendRequest()->where('id', $user->id)->count();
     }
 
 
-    public function addFriend(User $user){
+    public function addFriend(User $user)
+    {
         $this->friendOf()->attach($user->id);
     }
 
-    public function acceptFriendRequest(User $user){
-        return $this->friendRequest()->where('id' , $user->id)->first()->pivot->update([
-                                    'status'=> 'confirmed'
-                                ]);
-    }
-
-
-    public function declineFriendRequest(User $user){
-        return  $this->friendRequest()->where('id' ,$user->id)->first()->pivot->update([
-                                'status'=>'inactive'
+    public function acceptFriendRequest(User $user)
+    {
+        return $this->friendRequest()->where('id', $user->id)->first()->pivot->update([
+            'status' => 'confirmed'
         ]);
-        }   
-        
-        
-
-
-    public  function isFriendwith(User $user){
-        return (bool) $this->friends()->where('id',$user->id)->count();
     }
 
 
+    public function declineFriendRequest(User $user)
+    {
+        return  $this->friendRequest()->where('id', $user->id)->first()->pivot->update([
+            'status' => 'inactive'
+        ]);
+    }
+
+
+
+
+    public  function isFriendwith(User $user)
+    {
+        return (bool) $this->friends()->where('id', $user->id)->count();
+    }
 
 
     //deletind friend 
@@ -176,15 +178,8 @@ class User extends Authenticatable
         $this->friendsOfMine()->detach($user->id);
     }
 
-    
-
-
-
-
-
 
     //blocking relationship
-
 
     public function blockfriend()
     {
@@ -200,11 +195,7 @@ class User extends Authenticatable
         ]);
     }
 
-    
 
-
-
-    
     // public function blocked_friends()
     // {
     //     return $this->belongsToMany(User::class, 'friends', 'user_id', 'friend_id')
@@ -215,7 +206,7 @@ class User extends Authenticatable
     // {
     //     return $this->belongsTomany(User::class, 'friends', 'user_id', 'friend_id')
     //         ->wherePivot('status', '=', 'blocked');
-           
+
     // }
 
     // //friend that user was invited but now blocked 
@@ -223,7 +214,7 @@ class User extends Authenticatable
     // {
     //     return $this->belongsToMany(User::class, 'friends', 'user_id', 'friend_id')
     //         ->wherePivot('status', '=', 'blocked');
-           
+
     // }
 
     // //accessor allowing to call the $user->blocked_friends
@@ -250,7 +241,7 @@ class User extends Authenticatable
     // }
 
 
-    
+
 
 
 }

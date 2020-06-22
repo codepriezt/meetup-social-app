@@ -12,12 +12,6 @@ use App\Post;
 class PageController extends Controller
 {
     public function dashboard(){
-
-        // $not_friends = User::where('id', '!=', Auth::user()->id);
-        // if (Auth::user()->friends()->count()) {
-        //     $not_friends->whereNotIn('friend_id', Auth::user()->friends()->modelKeys());
-        // }
-        // $not_friends = $not_friends->limit(3)->get();
         $request = Auth::user()->friendRequest();
         $friends = Auth::user()->friends();
         if(Auth::check()){
@@ -48,11 +42,6 @@ class PageController extends Controller
 
     }
     public function users(){
-        // $not_friends = User::where('id', '!=', Auth::user()->id);
-        // if (Auth::user()->friends()->count()) {
-        //     $not_friends->whereNotIn('friend_id', Auth::user()->friends->modelKeys());
-        // }
-        // $not_friends = Auth::user()->not_friends();
         $not_friends = User::where('status', 'active')->get();
         return view('main.users.index', ['not_friends'=>$not_friends] );
     }
@@ -65,5 +54,10 @@ class PageController extends Controller
 
         public function messaging(){
             return view('main.message.index');
+        }
+
+        public function singlePost($id){
+            $post = Post::findOrFail($id);
+            return view('main.post.index', ['post'=>$post]);
         }
 }

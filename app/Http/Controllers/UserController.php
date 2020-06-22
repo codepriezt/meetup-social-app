@@ -10,6 +10,7 @@ use App\Mail\PasswordResetToken;
 use App\PasswordReset;
 use App\Mail\Activationmail;
 use Mail;
+use JD\Cloudder\Facades\Cloudder;
 
 
 class UserController extends Controller
@@ -24,14 +25,23 @@ class UserController extends Controller
             'username' => 'required',      
             'email' => 'required|unique:users,email',
             'password' => 'required',
+            'photo'=> 'nullable|file|mimes:jpeg,jpg,png|max:2048'
         ]);
+
+        if($data['photo']){
+            Cloudder::upload($data['photo']->getRealPath(), null);
+            $upload = Cloudder::getResult();
+            $url = $upload["url"];
+        
+        }
 
         $user = User::create([
                 'first_name'=>$data['first_name'],
                 'last_name'=> $data['last_name'],
                 'username'=>$data['username'],
                 'email'=>$data['email'],
-                'password'=>$data['password'], 
+                'password'=>$data['password'],
+                'photo'=> $url 
         ]);
 
         if(!$user){

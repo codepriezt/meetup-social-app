@@ -9,7 +9,7 @@
                                 <div class="user-profile">
                                     <div class="username-dt">
                                         <div class="usr-pic">
-                                            <img src="{{Auth::user()->photo ? Auth::user()->photo : asset('folder/images/resources/user-pic.png')}}" alt="">
+                                            <img src="{{ Auth::user()->photo ? Auth::user()->photo:asset('folder/images/resources/user-pic.png')}}" alt="" id="image-pic">
                                         </div>
                                     </div>
                                     <!--username-dt end-->

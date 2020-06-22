@@ -312,10 +312,14 @@ $(window).on("load", function () {
         e.preventDefault()
         $(".reply-box").slideToggle('hidden');
     })
-    
       
 });
 
+
+function markNotificationAsRead(notificationCount) {
+    if(notificationCount !== '0')
+    $.get('/markAsRead');
+}
 
 
     

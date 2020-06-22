@@ -7,20 +7,23 @@
                 <i class="la la-ellipsis-v"></i>
             </div>
             <div class="jobs-list">
-               @foreach($not_friends  as $user)
+                @foreach($not_friends as $user)
                 <div class="job-info">
                     <div class="job-details">
                         @if(Auth::user()->hasFriendRequestPending($user))
-                        <h3><a href="{{route('profile', ['username'=>$user->username])}}">{{$user->getfullName()}}</a></h3>
+                        <h3><a href="{{route('profile', ['username'=>$user->username])}}">{{$user->getfullName()}}</a>
+                        </h3>
                         <a href="{{route('profile', ['username'=>$user->username])}}">view profile</a>
                         @elseif(Auth::user()->isFriendwith($user))
-                        <h3><a href="{{route('profile', ['username'=>$user->username])}}">{{$user->getfullName()}}</a></h3>
+                        <h3><a href="{{route('profile', ['username'=>$user->username])}}">{{$user->getfullName()}}</a>
+                        </h3>
                         <a href="{{route('profile', ['username'=>$user->username])}}">view profile</a>
                         @else
-                    <h3><a href = "{{route('profile', ['username'=>$user->username])}}">{{$user->getfullName()}}</a></h3>
-                       <a href="{{route('addRequest' , ['id'=>$user->id])}}"><span>add friend</span></a>
-                      @endif
-                    </div> 
+                        <h3><a href="{{route('profile', ['username'=>$user->username])}}">{{$user->getfullName()}}</a>
+                        </h3>
+                        <a href="{{route('addRequest' , ['id'=>$user->id])}}"><span>add friend</span></a>
+                        @endif
+                    </div>
                 </div>
                 @endforeach
                 <!--job-info end-->
@@ -35,28 +38,22 @@
             </div>
             @foreach($friends as $user)
             <div class="jobs-list">
-                    <div class="job-details">
+                <div class="job-details">
                     <h3>{{$user->getfullName()}}</h3>
-                        <form action="{{route('deleteFriend' , ['username'=>$user->username])}}" method="post">
-                            <input type="submit" value="delete friend" class="btn btn-primary">
-                            <input type="hidden" name="_token" value="{{csrf_token()}}">
-                        </form>
-                    </div>
+                    <form action="{{route('deleteFriend' , ['username'=>$user->username])}}" method="post">
+                        <input type="submit" value="delete friend" class="btn btn-primary">
+                        <input type="hidden" name="_token" value="{{csrf_token()}}">
+                    </form>
                 </div>
-                @endforeach
-                <!--job-info end-->
             </div>
-            <!--jobs-list end-->
+            @endforeach
+            <!--job-info end-->
         </div>
-        <!--widget-jobs end-->
+        <!--jobs-list end-->
     </div>
-    <!--right-sidebar end-->
+    <!--widget-jobs end-->
 </div>
-</div>
-</div><!-- main-section-data end-->
-</div>
-</div>
-</main>
+<!--right-sidebar end-->
 
 
 
@@ -67,7 +64,7 @@
     <div class="post-project">
         <h3>Post an Image</h3>
         <div class="post-project-fields">
-            <form method="post" action="" enctype="multipart/form-data" id="form">
+        <form method="post" action="{{route('postImage')}}" enctype="multipart/form-data">
                 <div class="row">
                     <div class="col-lg-12">
                         <textarea name="body"
@@ -85,7 +82,7 @@
 
                     <div class="col-lg-12">
                         <ul>
-                            <li><button class="" type="submit" value="" id="btn">Post</button></li>
+                            <li><button class="" type="submit" value="">Post</button></li>
                             <li><a href="#" title="">Cancel</a></li>
                         </ul>
                     </div>
@@ -141,7 +138,7 @@
 <div class="chatbox-list">
     <div class="chatbox">
         <div class="chat-mg">
-            <a href="#" title=""><img src="{{asset('folderimages/resources/usr-img1.png')}}" alt=""></a>
+            <a href="#" title=""><img src="{{asset('folder/images/resources/usr-img1.png')}}" alt=""></a>
             <span>2</span>
         </div>
         <div class="conversation-box">
@@ -244,7 +241,7 @@
     </div>
     <div class="chatbox">
         <div class="chat-mg bx">
-            <a href="#" title=""><img src="images/chat.png" alt=""></a>
+            <a href="#" title=""><img src="{{asset('folder/images/chat.png')}}" alt=""></a>
             <span>2</span>
         </div>
         <div class="conversation-box">
@@ -269,11 +266,11 @@
                 </div>
                 <div class="conv-list">
                     <div class="usrr-pic">
-                        <img src="images/resources/usy2.png" alt="">
+                        <img src="{{asset('folder/images/resources/usy2.png')}}" alt="">
                     </div>
                     <div class="usy-info">
                         <h3>John Doe</h3>
-                        <span>Lorem ipsum dolor <img src="images/smley.png" alt=""></span>
+                        <span>Lorem ipsum dolor <img src="{{asset('folder/images/smley.png')}}" alt=""></span>
                     </div>
                     <div class="ct-time">
                         <span>11:39 PM</span>
@@ -281,11 +278,11 @@
                 </div>
                 <div class="conv-list">
                     <div class="usrr-pic">
-                        <img src="images/resources/usy3.png" alt="">
+                        <img src="{{asset('folder/images/resources/usy3.png')}}" alt="">
                     </div>
                     <div class="usy-info">
                         <h3>John Doe</h3>
-                        <span>Lorem ipsum dolor <img src="images/smley.png" alt=""></span>
+                        <span>Lorem ipsum dolor <img src="{{asset('folder/images/smley.png')}}" alt=""></span>
                     </div>
                     <div class="ct-time">
                         <span>0.28 AM</span>
@@ -300,4 +297,3 @@
 <!--chatbox-list end-->
 
 </div>
-

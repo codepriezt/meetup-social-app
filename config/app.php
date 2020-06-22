@@ -160,8 +160,8 @@ return [
         Illuminate\Session\SessionServiceProvider::class,
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
-        Illuminate\View\ViewServiceProvider::class,        
-        JD\Cloudder\CloudderServiceProvider,
+        Illuminate\View\ViewServiceProvider::class,
+        JD\Cloudder\CloudderServiceProvider::class,
 
 
 
@@ -174,7 +174,7 @@ return [
          */
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
-        // App\Providers\BroadcastServiceProvider::class,
+        App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
@@ -232,7 +232,7 @@ return [
         'Activation'=> Cartalyst\Sentinel\Laravel\Facades\Activation::class,
         'Reminder'=> Cartalyst\Sentinel\Laravel\Facades\Reminder::class,
         'Sentinel'=> Cartalyst\Sentinel\Laravel\Facades\Sentinel::class,
-        'Cloudder' => 'JD\Cloudder\Facades\Cloudder',
+        'Cloudder' => JD\Cloudder\Facades\Cloudder::class,
     ],
 
 ];

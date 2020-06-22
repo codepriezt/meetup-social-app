@@ -7,6 +7,7 @@ use App\Post;
 use App\Comment;
 use App\User;
 use Auth;
+use App\Notifications\ReplyToPost;
 
 class CommentController extends Controller
 {
@@ -20,6 +21,8 @@ class CommentController extends Controller
                 
 
                 $post->comments()->save($comment);
+
+                auth()->user()->notify(new ReplyToPost($post));
 
                 if(!$post){
                     return back()->with('error' , "unable to get update comment");
